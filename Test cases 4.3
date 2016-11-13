@@ -1,0 +1,114 @@
+package pokemon;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+public class PokemonAverageForceTest extends TestCase {
+
+	private Pokemon pokemon0;
+	private Pokemon pokemon01;
+	private Pokemon pokemon1;
+	private Pokemon pokemon11;
+	private Pokemon pokemon2;
+	private Pokemon pokemon3;
+	private Competition c1;
+	private Competition c2;
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		pokemon0 = new Pokemon("Pikachu", Type.Poison);
+		pokemon01 = new Pokemon("Pikachu", Type.Poison);
+		pokemon1 = new Pokemon("Carapuce", Type.Water);
+		pokemon11 = new Pokemon("Carapuce", Type.Water);
+		pokemon2 = new Pokemon("Raupy", Type.Fire);
+		pokemon3 = new Pokemon("Raupy123", Type.Fire);
+		Trainer t0 = new Trainer("Peter", "Lustig");
+		Trainer t1 = new Trainer("Alisa", "Traurig");
+		t0.addPokemon(pokemon0);
+		t0.addPokemon(pokemon11);
+		t0.addPokemon(pokemon01);
+		List<Pokemon> ps = new ArrayList<Pokemon>();
+		ps.add(pokemon1);
+		ps.add(pokemon2);
+		t0.addPokemon(pokemon3);
+		t1.setPokemons(ps);
+		c1 = new Competition();
+		c1.execute(pokemon0, pokemon01);
+		c2 = new Competition();
+		c2.execute(pokemon1, pokemon11);
+	}
+	
+	public void testPokemonAverageForceTypeWaterOneScore() throws Exception {
+		System.out.println("\nStart TestCase 1");
+		assertNotNull(pokemon1);
+		// ensure pokemon has the desired type
+		assertEquals(Type.Water, pokemon1.getType());
+		// max force value for pokemon type
+		double maxForce = pokemon1.getType().ordinal() + 1;
+		System.out.println(pokemon1 + "averageForce:" + pokemon1.averageForce() + " maxForce: " + maxForce );
+		// check that the average force is below the allowed maximum force
+		// this is the most important call of the test
+		assertTrue(maxForce >= pokemon1.averageForce() );
+		assertEquals("Carapuce", pokemon1.getName());
+
+		System.out.println("End TestCase 1\n");
+	}
+	
+	public void testPokemonAverageForceTypeFireNoScore() throws Exception {
+		System.out.println("\nStart TestCase 2");
+		assertNotNull(pokemon2);
+		// ensure pokemon has the desired type
+		assertEquals(Type.Fire, pokemon2.getType());
+		// max force value for pokemon type
+		double maxForce = pokemon2.getType().ordinal() + 1;
+		System.out.println(pokemon2 + " averageForce: " + pokemon2.averageForce() + " maxForce: " + maxForce );
+		// check that the average force is below the allowed maximum force
+		// this is the most important call of the test
+		assertTrue(0 == pokemon2.averageForce() );
+		assertEquals("Raupy", pokemon2.getName());
+
+		System.out.println("End TestCase 2\n");
+	}
+	
+	public void testPokemonAverageForceTypePoisonOneScoreSameTrainer() throws Exception {
+		System.out.println("\nStart TestCase 3");
+		assertNotNull(pokemon0);
+		// ensure pokemon has the desired type
+		assertEquals(Type.Poison, pokemon0.getType());
+		// max force value for pokemon type
+		double maxForce = pokemon0.getType().ordinal() + 1;
+		System.out.println(String.valueOf(c1.getScores().get(pokemon0)) + " the score\n");
+		System.out.println(pokemon0 + "averageForce:" + pokemon0.averageForce() + " maxForce: " + maxForce );
+		// check that the average force is below the allowed maximum force
+		// this is the most important call of the test
+		assertTrue(0 == pokemon0.averageForce() );
+		assertEquals("Pikachu", pokemon0.getName());
+
+		System.out.println("End TestCase 3\n");
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		pokemon0 = null;
+		pokemon1 = null;
+		pokemon2 = null;
+		pokemon3 = null;
+		c2 = null;
+		c1 = null;
+	}
+}
